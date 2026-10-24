@@ -1,0 +1,450 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Armstrong Number Checker | Satyanshu Saxena</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --cyan: #00f5ff;
+    --pink: #ff36c7;
+    --yellow: #ffe45e;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    color: white;
+    background: linear-gradient(135deg, #090923, #171044, #071e35);
+    background-size: 300% 300%;
+    animation: backgroundMove 12s ease infinite;
+    overflow-x: hidden;
+}
+
+@keyframes backgroundMove {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+header {
+    text-align: center;
+    padding: 27px 15px;
+    background: rgba(0, 0, 0, 0.35);
+    border-bottom: 2px solid var(--cyan);
+    box-shadow: 0 5px 25px #00f5ff33;
+}
+
+header h1 {
+    font-size: clamp(25px, 5vw, 42px);
+    color: var(--cyan);
+    text-shadow: 0 0 15px var(--cyan);
+}
+
+header p {
+    margin-top: 10px;
+    color: #ddd;
+}
+
+main {
+    width: min(900px, 92%);
+    margin: 35px auto;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid #ffffff30;
+    border-radius: 22px;
+    padding: 28px;
+    margin-bottom: 28px;
+    box-shadow: 0 12px 40px #0005;
+    backdrop-filter: blur(12px);
+}
+
+.checker {
+    text-align: center;
+}
+
+h2 {
+    color: var(--yellow);
+    margin-bottom: 18px;
+}
+
+.description {
+    color: #ddd;
+    line-height: 1.7;
+    margin-bottom: 22px;
+}
+
+.input-box {
+    display: flex;
+    gap: 10px;
+    max-width: 540px;
+    margin: auto;
+}
+
+input {
+    min-width: 0;
+    flex: 1;
+    padding: 15px;
+    border-radius: 12px;
+    border: 2px solid var(--cyan);
+    background: #090923;
+    color: white;
+    font-size: 18px;
+    outline: none;
+    box-shadow: 0 0 12px #00f5ff25;
+}
+
+input:focus {
+    box-shadow: 0 0 20px #00f5ff80;
+}
+
+button {
+    border: none;
+    border-radius: 12px;
+    padding: 14px 22px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #101027;
+    background: linear-gradient(135deg, var(--cyan), #8affb5);
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: translateY(-3px) scale(1.04);
+    box-shadow: 0 0 20px #00f5ff80;
+}
+
+.examples {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.examples button {
+    padding: 9px 15px;
+    color: white;
+    background: linear-gradient(135deg, #853bff, #ff36c7);
+}
+
+#result {
+    margin-top: 25px;
+    padding: 20px 10px;
+    border-radius: 15px;
+    display: none;
+    overflow-wrap: anywhere;
+}
+
+#result.success {
+    display: block;
+    background: #00ff9915;
+    border: 1px solid #00ff99;
+}
+
+#result.error {
+    display: block;
+    background: #ff365515;
+    border: 1px solid #ff5670;
+}
+
+.result-title {
+    font-size: 21px;
+    margin-bottom: 15px;
+}
+
+.number-3d {
+    display: inline-block;
+    margin: 8px 0 16px;
+    font-size: clamp(35px, 9vw, 65px);
+    font-weight: 900;
+    letter-spacing: 4px;
+    background: linear-gradient(
+        90deg, #00f5ff, #ff36c7, #ffe45e, #7cff6b, #00f5ff
+    );
+    background-size: 300%;
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: rainbow 4s linear infinite, float 2s ease-in-out infinite;
+    filter: drop-shadow(3px 5px 0 #7428a5)
+            drop-shadow(0 0 12px #00f5ff70);
+}
+
+@keyframes rainbow {
+    to { background-position: 300% center; }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotateX(0); }
+    50% { transform: translateY(-6px) rotateX(8deg); }
+}
+
+.calculation {
+    line-height: 1.9;
+    color: #e5e7ff;
+    word-break: break-word;
+}
+
+.theory h3 {
+    color: var(--cyan);
+    margin: 20px 0 10px;
+}
+
+.theory p, .theory li {
+    color: #e1e1f5;
+    line-height: 1.8;
+}
+
+.theory ul, .theory ol {
+    padding-left: 23px;
+}
+
+.formula {
+    margin: 16px 0;
+    padding: 16px;
+    border-radius: 12px;
+    background: #00f5ff12;
+    border: 1px dashed var(--cyan);
+    color: var(--yellow);
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+}
+
+footer {
+    text-align: center;
+    padding: 27px 15px;
+    margin-top: 35px;
+    background: #0005;
+    border-top: 2px solid var(--pink);
+    line-height: 1.9;
+}
+
+footer strong {
+    color: var(--pink);
+    text-shadow: 0 0 10px #ff36c780;
+}
+
+@media(max-width: 520px) {
+    .card { padding: 20px 15px; }
+    .input-box { flex-direction: column; }
+    .input-box button { width: 100%; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🚀 Armstrong Number Checker</h1>
+    <p>Smart Number Calculator | Learn Mathematics with Fun</p>
+</header>
+
+<main>
+    <section class="card checker">
+        <h2>🔢 Check Your Number</h2>
+
+        <p class="description">
+            Enter a positive integer to check whether it is an
+            Armstrong Number. Press Enter or click the button.
+        </p>
+
+        <div class="input-box">
+            <input
+                type="number"
+                id="numberInput"
+                placeholder="Enter a number..."
+                min="0"
+                step="1"
+                aria-label="Enter a non-negative integer"
+            >
+            <button id="checkBtn" type="button">✨ Check Now</button>
+        </div>
+
+        <div class="examples">
+            <button type="button" data-number="153">Try 153</button>
+            <button type="button" data-number="370">Try 370</button>
+            <button type="button" data-number="9474">Try 9474</button>
+            <button type="button" data-number="123">Try 123</button>
+        </div>
+
+        <div id="result" aria-live="polite"></div>
+    </section>
+
+    <section class="card theory">
+        <h2>📘 Theory: What Is an Armstrong Number?</h2>
+
+        <h3>1. Definition (English)</h3>
+        <p>
+            An Armstrong Number is a number equal to the sum of its
+            digits, where each digit is raised to the power of the
+            total number of digits.
+        </p>
+
+        <div class="formula">
+            Formula: n = d₁ᵏ + d₂ᵏ + ... + dₖᵏ
+            <br>
+            Here, k = total number of digits.
+        </div>
+
+        <h3>2. Example: 153</h3>
+        <p>
+            The number 153 has 3 digits. Raise each digit to the
+            power of 3 and add the results.
+        </p>
+
+        <div class="formula">
+            153 = 1³ + 5³ + 3³
+            <br>
+            = 1 + 125 + 27
+            <br>
+            = 153 ✅
+        </div>
+
+        <p>Therefore, 153 is an Armstrong Number.</p>
+
+        <h3>3. Examples of Armstrong Numbers</h3>
+        <p>
+            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 153, 370, 371,
+            407, 1634, 8208, 9474
+        </p>
+
+        <h3>4. Definition (हिंदी)</h3>
+        <p>
+            Armstrong Number वह संख्या होती है, जिसके प्रत्येक अंक
+            को कुल अंकों की संख्या की घात (Power) तक उठाकर जोड़ने
+            पर वही मूल संख्या प्राप्त होती है।
+        </p>
+
+        <h3>5. उदाहरण: 153</h3>
+        <p>
+            संख्या 153 में कुल 3 अंक हैं। इसलिए प्रत्येक अंक की
+            घात 3 होगी।
+        </p>
+
+        <div class="formula">
+            153 = 1³ + 5³ + 3³
+            <br>
+            = 1 + 125 + 27
+            <br>
+            = 153 ✅
+        </div>
+
+        <p>
+            इसलिए 153 एक Armstrong Number है।
+        </p>
+
+        <h3>6. मुख्य बातें</h3>
+        <ul>
+            <li>पहले संख्या में कुल अंकों की गिनती करें।</li>
+            <li>हर अंक को उस गिनती की घात तक उठाएँ।</li>
+            <li>सभी परिणामों को जोड़ें।</li>
+            <li>यदि योग मूल संख्या के बराबर है, तो वह Armstrong Number है।</li>
+        </ul>
+    </section>
+</main>
+
+<footer>
+    <p>Designed & Developed with ❤️</p>
+    <p>Created by <strong>Satyanshu Saxena</strong></p>
+    <p>© 2026 Armstrong Number Checker | All Rights Reserved</p>
+</footer>
+
+<script>
+const numberInput = document.getElementById("numberInput");
+const checkBtn = document.getElementById("checkBtn");
+const result = document.getElementById("result");
+
+function checkArmstrong() {
+    const rawValue = numberInput.value.trim();
+
+    if (rawValue === "") {
+        showError("⚠️ Please enter a number.");
+        numberInput.focus();
+        return;
+    }
+
+    // Accept only non-negative integers, not decimals or Infinity.
+    if (!/^\d+$/.test(rawValue)) {
+        showError("⚠️ Please enter a non-negative whole number.");
+        return;
+    }
+
+    // BigInt prevents precision loss for large integers.
+    const number = BigInt(rawValue);
+    const digits = rawValue.replace(/^0+(?=\d)/, "");
+    const power = digits.length;
+
+    let sum = 0n;
+    const steps = [];
+
+    for (const digitChar of digits) {
+        const digit = BigInt(digitChar);
+        const term = digit ** BigInt(power);
+        sum += term;
+        steps.push(`${digit}^${power} = ${term}`);
+    }
+
+    const isArmstrong = sum === number;
+
+    result.className = isArmstrong ? "success" : "error";
+    result.style.display = "block";
+
+    result.innerHTML = `
+        <div class="result-title">
+            ${isArmstrong
+                ? "🎉 Yes! It is an Armstrong Number!"
+                : "❌ No! It is not an Armstrong Number."}
+        </div>
+
+        <div class="number-3d">${digits}</div>
+
+        <div class="calculation">
+            <p><strong>Number of digits:</strong> ${power}</p>
+            <p><strong>Calculation:</strong></p>
+            <p>${steps.join(" + ")}</p>
+            <p><strong>Sum:</strong> ${sum}</p>
+            <p><strong>Original number:</strong> ${number}</p>
+            <p><strong>Result:</strong>
+                ${isArmstrong ? "Sum = Original Number ✅" : "Sum ≠ Original Number ❌"}
+            </p>
+        </div>
+    `;
+
+    result.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
+function showError(message) {
+    result.className = "error";
+    result.style.display = "block";
+    result.textContent = message;
+}
+
+checkBtn.addEventListener("click", checkArmstrong);
+
+numberInput.addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        checkArmstrong();
+    }
+});
+
+document.querySelectorAll("[data-number]").forEach(button => {
+    button.addEventListener("click", function() {
+        numberInput.value = this.dataset.number;
+        checkArmstrong();
+    });
+});
+</script>
+
+</body>
+</html>
